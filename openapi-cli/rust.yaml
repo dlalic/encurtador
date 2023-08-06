@@ -1,0 +1,6 @@
+'!include': 'shared.yaml'
+outputDir: tests/client
+generatorName: rust
+additionalProperties:
+  library: reqwest
+  serializableModel: "true"

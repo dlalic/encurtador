@@ -1,0 +1,5 @@
+inputSpec: openapi.json
+skipOverwrite: false
+globalProperties:
+  apiDocs: false
+  modelDocs: false
