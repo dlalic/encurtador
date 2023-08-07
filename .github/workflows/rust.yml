@@ -16,7 +16,6 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: check
@@ -30,8 +29,7 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          override: true
-      - run: rustup component add rustfmt
+          components: rustfmt
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
@@ -46,8 +44,7 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          override: true
-      - run: rustup component add clippy
+          components: clippy
       - uses: actions-rs/cargo@v1
         with:
           command: clippy
@@ -76,7 +73,6 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          override: true
       - run: cargo install diesel_cli
       - name: Set up environment
         run: cp .env.template .env
