@@ -41,7 +41,7 @@ async fn start_process(
     info!("Starting: {:?}", executable);
 
     let mut cmd = Command::new(executable);
-    cmd.env("RUST_LOG", "debug");
+    cmd.env("RUST_LOG", "info");
     cmd.args(args);
     cmd.stdin(Stdio::null());
     cmd.stdout(Stdio::piped());
@@ -65,7 +65,6 @@ async fn start_process(
     });
 
     while let Some(line) = reader.next_line().await.unwrap() {
-        info!("Process stdout: {}", line);
         if line.contains(output_ready) {
             info!(
                 "Got '{}' from process stdout, process is running",
