@@ -1,4 +1,4 @@
-use crate::common::{drop_database, start_backend};
+use crate::common::start_backend;
 use dotenv::dotenv;
 use env_logger::Env;
 use openapi::apis::configuration::Configuration;
@@ -7,6 +7,7 @@ use openapi::apis::Error;
 use openapi::models::CreateUrl;
 use tokio::sync::oneshot;
 use url::Url;
+use uuid::Uuid;
 
 mod common;
 
@@ -18,11 +19,10 @@ async fn it_shortens_urls_and_counts_visits() {
     let (kill_sender_be, kill_receiver_be) = oneshot::channel::<()>();
     let (exit_status_sender_be, exit_status_receiver_be) = oneshot::channel::<()>();
     start_backend(exit_status_sender_be, kill_receiver_be).await;
-    drop_database().await;
 
     let config = Configuration::default();
 
-    let url = "https://foo.com/bar?baz=1234";
+    let url = "https://foo.com/bar?baz=".to_owned() + &Uuid::new_v4().to_string();
     let request = CreateUrl {
         url: url.to_string(),
     };
@@ -46,7 +46,7 @@ async fn it_shortens_urls_and_counts_visits() {
         },
     };
 
-    let response = search_urls(&config, url).await.unwrap();
+    let response = search_urls(&config, &url).await.unwrap();
     let response_url = Url::parse(&response.shortened).unwrap();
     assert_eq!(response_url.domain().unwrap(), "tier.app");
     assert_eq!(response_url.path(), shortened);

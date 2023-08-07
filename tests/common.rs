@@ -17,20 +17,6 @@ pub async fn start_backend(exit_status_sender: Sender<()>, kill_receiver: Receiv
     .await;
 }
 
-pub async fn drop_database() {
-    info!("Dropping database");
-    let mut cmd = Command::new("diesel");
-    cmd.args(vec!["database", "reset"]);
-    cmd.stdin(Stdio::null());
-    cmd.stdout(Stdio::piped());
-    cmd.stderr(Stdio::piped());
-    cmd.spawn()
-        .expect("Command failed to start")
-        .wait()
-        .await
-        .expect("Command failed to run");
-}
-
 async fn start_process(
     executable: &str,
     args: &[&str],
