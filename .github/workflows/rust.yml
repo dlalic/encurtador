@@ -73,7 +73,6 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-      - run: cargo install diesel_cli
       - name: Set up environment
         run: cp .env.template .env
       - uses: actions-rs/cargo@v1
